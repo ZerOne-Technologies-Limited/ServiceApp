@@ -20,7 +20,7 @@ public class PropertyController : ControllerBase
     public async Task<ActionResult<IEnumerable<PropertyDTO>>> GetProperties()
     {
         var properties = await _propertyService.GetAllAsync();
-        return Ok(_mapper.Map<PropertyDTO>(properties));
+        return Ok(_mapper.Map<IEnumerable<PropertyDTO>>(properties));
     }
 
     // GET: api/Property/{id}
