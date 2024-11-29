@@ -1,5 +1,5 @@
-BHDAPI/appsettings.json
-BHDAPI/obj/
-BHDAPI/bin/
-BHDAPI/publish/
-boarding-house-dashboard/build/
+ServicesAPI/appsettings.json
+ServicesAPI/obj/
+ServicesAPI/bin/
+ServicesAPI/publish/
+services-frontend/build/
