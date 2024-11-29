@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,10 +7,12 @@ using Microsoft.EntityFrameworkCore;
 public class MachineController : ControllerBase
 {
     private readonly IService<Machine> _machineService;
+   private readonly IMapper _mapper;
 
-    public MachineController(IService<Machine> machineService)
+    public MachineController(IService<Machine> machineService, IMapper mapper)
     {
         _machineService = machineService;
+          _mapper = mapper;
     }
 
     // GET: api/Machine
@@ -45,17 +48,17 @@ public class MachineController : ControllerBase
 
     // POST: api/Machine
     [HttpPost]
-    public async Task<ActionResult<Machine>> CreateMachine(Machine machine)
+    public async Task<ActionResult<Machine>> CreateMachine(CreateMachineDTO machine)
     {
-        var createdMachine = await _machineService.CreateAsync(machine);
+        var createdMachine = await _machineService.CreateAsync(_mapper.Map<Machine>(machine));
         return CreatedAtAction(nameof(GetMachine), new { id = createdMachine.Id }, createdMachine);
     }
 
     // PUT: api/Machine/{id}
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateMachine(int id, Machine machine)
+    public async Task<IActionResult> UpdateMachine(int id, UpdateMachineDTO machine)
     {
-        var updatedMachine = await _machineService.UpdateAsync(id, machine);
+        var updatedMachine = await _machineService.UpdateAsync(id, _mapper.Map<Machine>(machine));
         if (updatedMachine == null)
             return NotFound();
 

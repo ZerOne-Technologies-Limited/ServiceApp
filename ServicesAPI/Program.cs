@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,10 +8,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ServicesDBContext>(db => db.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Singleton);
-builder.Services.AddTransient<ServicesDBContext>();  
+builder.Services.AddTransient<ServicesDBContext>(); 
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 builder.Services.AddScoped(typeof(IService<>), typeof(Service<>));  
 
