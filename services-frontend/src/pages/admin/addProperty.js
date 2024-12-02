@@ -1,61 +1,44 @@
 import React, { useState } from 'react';
-import { createProperty } from '../../services/apiService';
+import { createProperty } from '../../services/apiService'; // API function to add a property
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
 
-const AddProperty = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    address: '',
-  });
+const AddProperty = ({ onPropertyAdded, onClose }) => {
+  const [name, setName] = useState('');
+  const [address, setAddress] = useState('');
 
-  const [status, setStatus] = useState('');
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleAdd = async () => {
     try {
-      const property = { ...formData, createdAt: new Date(), updatedAt: new Date() };
-      await createProperty(property);
-      setStatus('Property created successfully!');
-      setFormData({ name: '', address: '' }); // Clear form
+      const newProperty = { name, address }; // Replace with your property schema
+      await createProperty(newProperty); // Call API to add property
+      onPropertyAdded(); // Trigger reload of the properties list
+      onClose(); // Close the modal
     } catch (error) {
-      setStatus('Failed to create property.');
+      console.error('Error adding property:', error);
     }
   };
 
   return (
-    <div>
-      <h2>Create Property</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="name">Name</label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="address">Address</label>
-          <input
-            type="text"
-            id="address"
-            name="address"
-            value={formData.address}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <button type="submit">Submit</button>
-      </form>
-      {status && <p>{status}</p>}
-    </div>
+    <Box sx={{ padding: 2, backgroundColor: 'white', margin: 'auto', width: '300px', borderRadius: 2 }}>
+      <TextField
+        label="Name"
+        fullWidth
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        sx={{ marginBottom: 2 }}
+      />
+      <TextField
+        label="Address"
+        fullWidth
+        value={address}
+        onChange={(e) => setAddress(e.target.value)}
+        sx={{ marginBottom: 2 }}
+      />
+      <Button onClick={handleAdd}>
+        Add Property
+      </Button>
+    </Box>
   );
 };
 

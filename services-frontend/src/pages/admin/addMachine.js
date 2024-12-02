@@ -1,29 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { createMachine } from '../../services/apiService';
+import React, { useState } from 'react';
+import { createMachine } from '../../services/apiService'; // API call to create a machine
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
 
-const MachineForm = (Property) => {
+const AddMachine = ({ id, onMachineAdded }) => {
   const [formData, setFormData] = useState({
     name: '',
     qrCodeUrl: '',
-    propertyId: Property.id,
+    propertyId: id, // Directly use propertyId passed as prop
   });
 
-  const [properties, setProperties] = useState([]);
   const [status, setStatus] = useState('');
-
-  useEffect(() => {
-    // Fetch properties for the dropdown
-    const fetchProperties = async () => {
-      try {
-        // Example API call to get properties, adjust accordingly
-        const response = await axios.get(`${API_BASE_URL}/properties`);
-        setProperties(response.data);
-      } catch (error) {
-        console.error('Error fetching properties:', error);
-      }
-    };
-    fetchProperties();
-  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -33,10 +21,21 @@ const MachineForm = (Property) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const machine = { ...formData, createdAt: new Date(), updatedAt: new Date() };
+      const machine = {
+        name: formData.name,
+        qrCodeUrl: formData.qrCodeUrl,
+        propertyId: formData.propertyId,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        };
       await createMachine(machine);
       setStatus('Machine created successfully!');
       setFormData({ name: '', qrCodeUrl: '', propertyId: '' }); // Clear form
+
+      // Trigger the callback to reload the machines list
+      if (onMachineAdded) {
+        onMachineAdded();
+      }
     } catch (error) {
       setStatus('Failed to create machine.');
     }
@@ -45,51 +44,32 @@ const MachineForm = (Property) => {
   return (
     <div>
       <h2>Create Machine</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="name">Machine Name</label>
-          <input
-            type="text"
-            id="name"
+      <Box sx={{ padding: 2, backgroundColor: 'white', margin: 'auto', width: '300px', borderRadius: 2 }}>
+          <TextField
+            label="Machine Name"
             name="name"
             value={formData.name}
             onChange={handleChange}
+            fullWidth
             required
+            sx={{ marginBottom: 2 }}
           />
-        </div>
-        <div>
-          <label htmlFor="qrCodeUrl">QR Code URL</label>
-          <input
-            type="text"
-            id="qrCodeUrl"
+          <TextField
+            label="QR Code URL"
             name="qrCodeUrl"
             value={formData.qrCodeUrl}
             onChange={handleChange}
+            fullWidth
             required
+            sx={{ marginBottom: 2 }}
           />
-        </div>
-        {/* <div>
-          <label htmlFor="propertyId">Property</label>
-          <select
-            id="propertyId"
-            name="propertyId"
-            value={formData.propertyId}
-            onChange={handleChange}
-            required
-          >
-            <option value="">Select a property</option>
-            {properties.map((property) => (
-              <option key={property.id} value={property.id}>
-                {property.name}
-              </option>
-            ))}
-          </select>
-        </div> */}
-        <button type="submit">Submit</button>
-      </form>
+        <Button  onClick={handleSubmit}>
+          ADD MACHINE
+        </Button>
+        </Box>
       {status && <p>{status}</p>}
     </div>
   );
 };
 
-export default MachineForm;
+export default AddMachine;
