@@ -21,6 +21,7 @@ const AddProperty = ({ onPropertyAdded, onClose }) => {
 
   return (
     <Box sx={{ padding: 2, backgroundColor: 'white', margin: 'auto', width: '300px', borderRadius: 2 }}>
+      <h2>Create Prperty</h2>
       <TextField
         label="Name"
         fullWidth

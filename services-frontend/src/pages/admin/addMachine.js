@@ -43,8 +43,9 @@ const AddMachine = ({ id, onMachineAdded }) => {
 
   return (
     <div>
-      <h2>Create Machine</h2>
+      
       <Box sx={{ padding: 2, backgroundColor: 'white', margin: 'auto', width: '300px', borderRadius: 2 }}>
+      <h2>Create Machine</h2>
           <TextField
             label="Machine Name"
             name="name"

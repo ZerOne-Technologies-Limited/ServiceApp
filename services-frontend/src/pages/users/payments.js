@@ -33,25 +33,25 @@ const PaymentMethodSelector = ({ item }) => {
         <Card
           sx={{
             cursor: 'pointer',
-            border: selectedMethod === 'Airtel' ? '2px solid green' : '1px solid gray',
+            border: selectedMethod === 'Airtel' ? '4px solid green' : '1px solid gray',
           }}
           onClick={() => handleMethodSelect('Airtel')}
         >
-        <CardContent>
+        <CardContent >
             <CardMedia
                 component="img"
                 image={airtellogo}
                 alt="Airtel Logo"
-                sx={{ width: 50, height: 50, marginBottom: 1 }} // MUI's system props for styling
+                sx={{ width: 100, height: 100, marginBottom: 1 }} // MUI's system props for styling
             />
-            <Typography variant="h6">Airtel</Typography>
+            <Typography  variant="h6">Airtel</Typography>
         </CardContent>
 
         </Card>
         <Card
           sx={{
             cursor: 'pointer',
-            border: selectedMethod === 'MTN' ? '2px solid green' : '1px solid gray',
+            border: selectedMethod === 'MTN' ? '4px solid green' : '1px solid gray',
           }}
           onClick={() => handleMethodSelect('MTN')}
         >
@@ -60,7 +60,7 @@ const PaymentMethodSelector = ({ item }) => {
                 component="img"
                 image={mtnlogo}
                 alt="MTN Logo"
-                sx={{ width: 50, height: 50, marginBottom: 1 }} // MUI's system props for styling
+                sx={{ width: 100, height: 100, marginBottom: 1 }} // MUI's system props for styling
             />
             <Typography variant="h6">MTN</Typography>
           </CardContent>
